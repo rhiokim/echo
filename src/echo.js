@@ -9,14 +9,12 @@ window.Echo = (function (window, document, undefined) {
     return ((coords.top >= 0 && coords.left >= 0 && coords.top) <= (window.innerHeight || document.documentElement.clientHeight) + parseInt(offset));
   };
 
-  var _pollContents = function () {
+  var _pollImages = function () {
     for (var i = store.length; i--;) {
-      var prop, self = store[i];
+      var self = store[i];
       if (_inView(self)) {
-        prop = self.getAttribute('data-lazy-prop') || 'src';
-        self[prop] = self.getAttribute('data-lazy');
-        self.removeAttribute('data-lazy-prop');
-        self.removeAttribute('data-lazy');
+        self.src = self.getAttribute('data-echo');
+        self.removeAttribute('data-echo');
         store.splice(i, 1);
       }
     }
@@ -24,7 +22,7 @@ window.Echo = (function (window, document, undefined) {
 
   var _throttle = function () {
     clearTimeout(poll);
-    poll = setTimeout(_pollContents, throttle);
+    poll = setTimeout(_pollImages, throttle);
   };
 
   var push = function(node) {
@@ -32,7 +30,7 @@ window.Echo = (function (window, document, undefined) {
   };
 
   var init = function (obj) {
-    var nodes = document.querySelectorAll('[data-lazy]');
+    var nodes = document.querySelectorAll('[data-echo]');
     var opts = obj || {};
     offset = opts.offset || 0;
     throttle = opts.throttle || 250;
