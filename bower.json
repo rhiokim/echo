@@ -1,0 +1,21 @@
+{
+  "name": "haroopad-echo",
+  "version": "1.4.0",
+  "homepage": "https://github.com/rhiokim/haroopad-echo",
+  "authors": [
+    "rhiokim <rhio.kim@gmail.com>"
+  ],
+  "description": "echo.js for haroopad",
+  "main": "src/echo.js",
+  "keywords": [
+    "lazy"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
