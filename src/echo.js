@@ -14,9 +14,9 @@ window.Echo = (function (window, document, undefined) {
       var prop, self = store[i];
       if (_inView(self)) {
         prop = self.getAttribute('data-lazy-prop') || 'src';
-        self[prop] = self.getAttribute('data-lazy-data');
+        self[prop] = self.getAttribute('data-lazy');
         self.removeAttribute('data-lazy-prop');
-        self.removeAttribute('data-lazy-data');
+        self.removeAttribute('data-lazy');
         store.splice(i, 1);
       }
     }
