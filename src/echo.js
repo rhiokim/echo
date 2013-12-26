@@ -9,11 +9,14 @@ window.Echo = (function (window, document, undefined) {
     return ((coords.top >= 0 && coords.left >= 0 && coords.top) <= (window.innerHeight || document.documentElement.clientHeight) + parseInt(offset));
   };
 
-  var _pollImages = function () {
+  var _pollContents = function () {
     for (var i = store.length; i--;) {
-      var self = store[i];
+      var prop, self = store[i];
       if (_inView(self)) {
-        self.src = self.getAttribute('data-echo');
+        prop = self.getAttribute('data-lazy-prop') || 'src';
+        self[prop] = self.getAttribute('data-lazy-data');
+        self.removeAttribute('data-lazy-prop');
+        self.removeAttribute('data-lazy-data');
         store.splice(i, 1);
       }
     }
@@ -21,11 +24,15 @@ window.Echo = (function (window, document, undefined) {
 
   var _throttle = function () {
     clearTimeout(poll);
-    poll = setTimeout(_pollImages, throttle);
+    poll = setTimeout(_pollContents, throttle);
+  };
+
+  var push = function(node) {
+    store.push(node);
   };
 
   var init = function (obj) {
-    var nodes = document.querySelectorAll('[data-echo]');
+    var nodes = document.querySelectorAll('[data-lazy]');
     var opts = obj || {};
     offset = opts.offset || 0;
     throttle = opts.throttle || 250;
@@ -45,6 +52,7 @@ window.Echo = (function (window, document, undefined) {
 
   return {
     init: init,
+    push: push,
     render: _throttle
   };
 
